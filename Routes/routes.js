@@ -9,8 +9,9 @@ router.get('/users', authenticateUser, errorHelper(async (req, res, next) =>{
    //return authenticated user. 200OK
    const user = req.currentUser;
    res.json({
-       name: user.firstName,
-       username: user.emailAddress
+       "First name" : user.firstName,
+       "Last name": user.lastName,
+       "Username": user.emailAddress
    });
 }));
 
@@ -33,9 +34,11 @@ router.post('/users', errorHelper(async (req, res) => {
 
 //all Courses Route
 router.get('/courses', errorHelper(async (req, res, next) => {
-    const courses = await Course.findAll({ include: [{
-        model: User,
-        attributes: ['firstName', 'lastName', 'emailAddress'],
+    const courses = await Course.findAll({ 
+        attributes: ['id', 'title', 'description','estimatedTime', 'materialsNeeded'],
+        include: [{
+            model: User,
+            attributes: ['firstName', 'lastName', 'emailAddress'],
     }]});
     res.json(courses);
     //returns a list of all courses including de user that owns each one. 200 OK
@@ -44,12 +47,20 @@ router.get('/courses', errorHelper(async (req, res, next) => {
 //course reader route
 router.get('/courses/:id', errorHelper(async (req, res, next) => {
     const course = await Course.findByPk(req.params.id, {
-        include: [{
+        attributes: ['id', 'title', 'description','estimatedTime', 'materialsNeeded'],
+        include: [ {
             model: User,
             attributes: ['firstName', 'lastName', 'emailAddress'],
         }]
     });
-    res.json(course);
+    if (course === null) {
+        const error = new Error('Resource Not found.')
+            error.status = 404;
+            throw error;
+    } else {
+        res.json(course);
+    }
+    
     //returns the course and the corresponding owner. 200OK
 }));
 
@@ -76,14 +87,17 @@ router.post('/courses', authenticateUser, errorHelper(async (req, res, next) => 
 router.put('/courses/:id', authenticateUser, errorHelper(async (req, res, next) => {
     try {
         //update the id and return 204 with end.
+        const user = req.currentUser;
         const course = await Course.findByPk(req.params.id);
-        if (course) {
-            await course.update(req.body);
-            res.status(204).end();
-        } else {
+        if (course === null) {
             const error = new Error('Resource Not found, nothing to update!')
             error.status = 404;
             throw error;
+        } else if (course.userId === user.id) {
+            await course.update(req.body);
+            res.status(204).end();
+        } else {
+            res.status(403).end();
         }      
     } catch (error) {
         if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
@@ -93,23 +107,39 @@ router.put('/courses/:id', authenticateUser, errorHelper(async (req, res, next) 
             throw error;
         }
     }
-   
 }));
 
-//course delete route
+// DELETE COURSE ROUTE
 router.delete('/courses/:id', authenticateUser, errorHelper(async (req, res, next) => {
-    //delete the id and return 204 with end.
-    const course = await Course.findByPk(req.params.id);
-    await course.destroy();
-    res.status(204).end();
+    try {
+        const user = req.currentUser;
+        const course = await Course.findByPk(req.params.id);
+        if (course === null) {
+            const error = new Error('Resource Not found, nothing to delete!')
+            error.status = 404;
+            throw error;
+        } else if (course.userId === user.id) {
+            await course.destroy();
+            res.status(204).end();
+        } else {
+            res.status(403).end();
+        }      
+    } catch (error) {
+        if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+            const errors = error.errors.map(err => err.message);
+            res.status(400).json({ errors });
+        } else {
+            throw error;
+        }
+    }  
 }));
 
-//user account delete
-router.delete('/users/:id', authenticateUser, errorHelper(async (req, res, next) => {
-    const user = await User.findByPk(req.params.id);
-    await user.destroy();
-    res.status(204).end();
-}));
+// // DELETE USER ROUTE (CUSTOM ADDED)
+// router.delete('/users/:id', authenticateUser, errorHelper(async (req, res, next) => {
+//     const user = await User.findByPk(req.params.id);
+//     await user.destroy();
+//     res.status(204).end();
+// }));
 
 
 
