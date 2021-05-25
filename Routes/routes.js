@@ -15,13 +15,13 @@ router.get('/users', authenticateUser, errorHelper(async (req, res, next) =>{
 }));
 
 //create new user route.
-router.post('/users', errorHelper(async (req, res, next) => {
+router.post('/users', errorHelper(async (req, res) => {
     try {
         await User.create(req.body);
         res.status(201).location('/').end();
     } catch(error) {
         if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
-            const errors = error.errors.map(err => err.messsage);
+            const errors = error.errors.map(err => err.message);
             res.status(400).json({ errors });
         } else {
             throw error;
@@ -55,12 +55,21 @@ router.get('/courses/:id', errorHelper(async (req, res, next) => {
 
 //course create route
 router.post('/courses', authenticateUser, errorHelper(async (req, res, next) => {
-    const user = req.currentUser;
-    const newCourse = await Course.create({...req.body, userId: user.id});
-    //create a new course.
-    res.status(201).location(`/api/courses/${newCourse.id}`).end();
-    //set the location header to URI of the new course
-    //201 and end.
+    try {
+        const user = req.currentUser;
+        const newCourse = await Course.create({...req.body, userId: user.id});
+        //create a new course.
+        res.status(201).location(`/api/courses/${newCourse.id}`).end();
+        //set the location header to URI of the new course
+        //201 and end.
+    } catch(error) {
+        if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+            const errors = error.errors.map(err => err.message);
+            res.status(400).json({ errors });
+        } else {
+            throw error;
+        }
+    }
 }));
 
 //course update route
