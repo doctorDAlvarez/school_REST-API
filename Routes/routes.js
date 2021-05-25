@@ -4,9 +4,8 @@ const { User, Course } = require('../models');
 const { authenticateUser } = require('../middleware/auth');
 const { errorHelper } = require('../middleware/errorHelper');
 
-//User authenticate route
+//GET USER ROUTE (NEED AUTH)!
 router.get('/users', authenticateUser, errorHelper(async (req, res, next) =>{
-   //return authenticated user. 200OK
    const user = req.currentUser;
    res.json({
        "First name" : user.firstName,
@@ -15,7 +14,7 @@ router.get('/users', authenticateUser, errorHelper(async (req, res, next) =>{
    });
 }));
 
-//create new user route.
+//CREATE NEW USER ROUTE. (NO AUTH)!
 router.post('/users', errorHelper(async (req, res) => {
     try {
         await User.create(req.body);
@@ -32,7 +31,7 @@ router.post('/users', errorHelper(async (req, res) => {
     //return status 201 and no content. end. 201 created
 }));
 
-//all Courses Route
+//GET ALL COURSES (NO AUTH)!
 router.get('/courses', errorHelper(async (req, res, next) => {
     const courses = await Course.findAll({ 
         attributes: ['id', 'title', 'description','estimatedTime', 'materialsNeeded'],
