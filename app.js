@@ -13,6 +13,8 @@ const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'tr
 // create the Express app
 const app = express();
 
+app.use(express.json());
+
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
 
@@ -51,7 +53,9 @@ const server = app.listen(app.get('port'), () => {
 (async () => {
   try {
     await sequelize.authenticate();
-    console.log("Connection Established with database");  
+    console.log("Connection Established with database");
+    await sequelize.sync();
+    console.log("Database Sync");
   } catch (err){
     console.log('Error connecting', err);
   }

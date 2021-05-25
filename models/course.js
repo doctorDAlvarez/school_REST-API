@@ -4,8 +4,15 @@ const { DataTypes, Model } = require('sequelize');
 module.exports = (sequelize) => {
         // model attributes
   const Course = sequelize.define('Course', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     title: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
     },
     description: {
         type: DataTypes.TEXT
@@ -19,7 +26,12 @@ module.exports = (sequelize) => {
 },{sequelize});
 
 Course.associate = (models) => {
-    Course.belongsTo(models.User);
+    Course.belongsTo(models.User, {
+        foreignKey: {
+            fieldName: 'userId',
+            allowNull: false,
+        }
+    });
 };
 
     
