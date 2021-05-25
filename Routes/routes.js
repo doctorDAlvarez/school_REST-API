@@ -74,10 +74,26 @@ router.post('/courses', authenticateUser, errorHelper(async (req, res, next) => 
 
 //course update route
 router.put('/courses/:id', authenticateUser, errorHelper(async (req, res, next) => {
-    //update the id and return 204 with end.
-    const course = await Course.findByPk(req.params.id);
-    await course.update(req.body);
-    res.json(course);
+    try {
+        //update the id and return 204 with end.
+        const course = await Course.findByPk(req.params.id);
+        if (course) {
+            await course.update(req.body);
+            res.status(204).end();
+        } else {
+            const error = new Error('Resource Not found, nothing to update!')
+            error.status = 404;
+            throw error;
+        }      
+    } catch (error) {
+        if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+            const errors = error.errors.map(err => err.message);
+            res.status(400).json({ errors });
+        } else {
+            throw error;
+        }
+    }
+   
 }));
 
 //course delete route
