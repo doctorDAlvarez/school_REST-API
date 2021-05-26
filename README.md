@@ -38,7 +38,9 @@ Server will listen on <strong>localhost:5000</strong><br>
 =========================================
 
 ## Tests and browser compatibility
-All routes, authentication and CRUD operations were validated and tested using postman desktop. MAY 2021.
+All routes, authentication and CRUD operations were validated and tested using postman desktop. <br>
+Use this file in Postman to test. <code>RESTAPI.postman_collection.json<br>
+MAY 2021.
 
 ## Contribute
 Please feel free to clone it, test it and colaborate with anything you might think will improve the app.
