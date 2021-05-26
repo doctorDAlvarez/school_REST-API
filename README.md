@@ -31,7 +31,6 @@ Up and Running good. ;)
 ## Installation
 Clone the repo. Go to the main directory.<br>
 <code>npm install</code><br>
-<code>npm run seed</code><br>
 <code>npm start</code> (to run the app.js file)<br>
 Server will listen on <strong>localhost:5000</strong><br>
 
