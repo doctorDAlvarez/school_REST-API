@@ -9,23 +9,23 @@ Build a complete REST API that will serve my React app of project 10.
 Up and Running good. ;)
 
 ## Tech/framework/dependencies used
-> vanilla JavaScript
-> node.js
-> Express
-> Sequelize
-> bcrypt
-> morgan
-> basic-auth
-> sqlite3
+> vanilla JavaScript <br>
+> node.js<br>
+> Express<br>
+> Sequelize<br>
+> bcrypt<br>
+> morgan<br>
+> basic-auth<br>
+> sqlite3<br>
 
 =========================================
 
 ## Features
-> Authentication - Basic Schema.
-> Error Handling - 400, 401, 402, 403, 404 and 500. SequelizeValidationErrors and SequelizeUniqueConstraintErrors.
-> User account creation
-> Validation - 
-> Courses Updates
+> Authentication - Basic Schema.<br>
+> Error Handling - 400, 401, 402, 403, 404 and 500. SequelizeValidationErrors and SequelizeUniqueConstraintErrors.<br>
+> User account creation<br>
+> Validation - <br>
+> Courses Updates<br>
 =================
 
 ## Installation
@@ -33,7 +33,7 @@ Clone the repo. Go to the main directory.<br>
 <code>npm install</code><br>
 <code>npm run seed</code><br>
 <code>npm start</code> (to run the app.js file)<br>
-Server will listen on <strong>localhost:5000</strong>
+Server will listen on <strong>localhost:5000</strong><br>
 
 =========================================
 
