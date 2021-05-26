@@ -1,58 +1,59 @@
-const { DataTypes, Model } = require('sequelize');
+const {
+    DataTypes
+  } = require( 'sequelize' );
+  
 
-
-module.exports = (sequelize) => {
-        // model attributes
-  const Course = sequelize.define('Course', {
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    title: {
+  module.exports = ( sequelize ) => {
+    // model attributes
+    const Course = sequelize.define( 'Course', {
+    //   id: {
+    //     type: DataTypes.INTEGER,
+    //     primaryKey: true,
+    //     autoIncrement: true
+    //   },
+      title: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: {
-            msg: 'There is a course with this title, try another'
+          msg: 'There is a course with this title, try another'
         },
         validate: {
-            notEmpty: {
-                msg: 'Provide a course title.'
-            },
-            notNull: {
-                msg: 'Provide a course title.'
-            }
+          notEmpty: {
+            msg: 'Provide a course title.'
+          },
+          notNull: {
+            msg: 'Provide a course title.'
+          }
         }
-    },
-    description: {
+      },
+      description: {
         type: DataTypes.TEXT,
         allowNull: false,
         validate: {
-            notEmpty: {
-                msg: 'Please provide a course description.'
-            },
-            notNull: {
-                msg: 'Provide a description.'
-            }
+          notEmpty: {
+            msg: 'Please provide a course description.'
+          },
+          notNull: {
+            msg: 'Provide a description.'
+          }
         }
-    },
-    estimatedTime: {
+      },
+      estimatedTime: {
         type: DataTypes.STRING
-    },
-    materialsNeeded: {
+      },
+      materialsNeeded: {
         type: DataTypes.STRING
-    },
-},{sequelize});
-
-Course.associate = (models) => {
-    Course.belongsTo(models.User, {
+      },
+    }, {
+      sequelize
+    } );
+    Course.associate = ( models ) => {
+      Course.belongsTo( models.User, {
         foreignKey: {
-            fieldName: 'userId',
-            allowNull: false,
+          fieldName: 'userId',
+          allowNull: false,
         }
-    });
-};
-
-    
+      } );
+    };
     return Course;
-}
+  }

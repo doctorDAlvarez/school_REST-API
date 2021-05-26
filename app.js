@@ -1,61 +1,65 @@
 'use strict';
-
 // load modules
-const express = require('express');
-const morgan = require('morgan');
-const { sequelize } = require('./models')
-const routes = require('./Routes/routes');
+const express = require( 'express' );
+const morgan = require( 'morgan' );
+const {
+  sequelize
+} = require( './models' )
+const routes = require( './Routes/routes' );
 
 // variable to enable global error logging
-const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
+const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING ===
+  'true';
 
 // create the Express app
 const app = express();
 
 // parsing body of request to json.
-app.use(express.json());
+app.use( express.json() );
 
 // setup morgan which gives us http request logging
-app.use(morgan('dev'));
+app.use( morgan( 'dev' ) );
 
 // adding routes to /api endpoints
-app.use('/api', routes);
+app.use( '/api', routes );
 
 // send 404 if no other route matched
-app.use((req, res) => {
-  res.status(404).json({
-    message: 'Route Not Found',
-  });
-});
+app.use( ( req, res ) => {
+  res.status( 404 )
+    .json( {
+      message: 'Route Not Found',
+    } );
+} );
 
 // setup a global error handler
-app.use((err, req, res, next) => {
-  if (enableGlobalErrorLogging) {
-    console.error(`Global error handler: ${JSON.stringify(err.stack)}`);
+app.use( ( err, req, res, next ) => {
+  if ( enableGlobalErrorLogging ) {
+    console.error( `Global error handler: ${JSON.stringify(err.stack)}` );
   }
-
-  res.status(err.status || 500).json({
-    message: err.message,
-    error: err.status,
-  });
-});
+  res.status( err.status || 500 )
+    .json( {
+      message: err.message,
+      error: err.status,
+    } );
+} );
 
 // set our port
-app.set('port', process.env.PORT || 5000);
+app.set( 'port', process.env.PORT || 5000 );
 
 // start listening on our port
-const server = app.listen(app.get('port'), () => {
-  console.log(`Express server is listening on port ${server.address().port}`);
-});
+const server = app.listen( app.get( 'port' ), () => {
+  console.log(
+    `Express server is listening on port ${server.address().port}` );
+} );
 
 // Testing the connection and sync with database
-(async () => {
+( async () => {
   try {
     await sequelize.authenticate();
-    console.log("Connection Established with database");
+    console.log( "Connection Established with database" );
     await sequelize.sync();
-    console.log("Database Sync");
-  } catch (err){
-    console.log('Error connecting', err);
+    console.log( "Database Synced" );
+  } catch ( err ) {
+    console.log( 'Error connecting', err );
   }
-})();
+} )();
