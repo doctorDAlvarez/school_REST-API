@@ -1,2 +1,55 @@
-# school_REST-API
-REST API with express for students to manage courses.
+## School Courses REST API.
+Project 9 of my fullStack tech-degree. Super cool REST API handling users, authentication, restricted routes and CRUD operations on a relational DB.
+
+## Motivation
+Learn and work with the building blocks of any modern web app now days. 
+Build a complete REST API that will serve my React app of project 10.
+
+## Build status
+Up and Running good. ;)
+
+## Tech/framework/dependencies used
+> vanilla JavaScript
+> node.js
+> Express
+> Sequelize
+> bcrypt
+> morgan
+> basic-auth
+> sqlite3
+
+=========================================
+
+## Features
+> Authentication - Basic Schema.
+> Error Handling - 400, 401, 402, 403, 404 and 500. SequelizeValidationErrors and SequelizeUniqueConstraintErrors.
+> User account creation
+> Validation - 
+> Courses Updates
+=================
+
+## Installation
+Clone the repo. Go to the main directory.<br>
+<code>npm install</code><br>
+<code>npm run seed</code><br>
+<code>npm start</code> (to run the app.js file)<br>
+Server will listen on <strong>localhost:5000</strong>
+
+=========================================
+
+## Tests and browser compatibility
+All routes, authentication and CRUD operations were validated and tested using postman desktop. MAY 2021.
+
+## Contribute
+Please feel free to clone it, test it and colaborate with anything you might think will improve the app.
+
+## Credits
+thanks to teamTreeHouse team and slack community, specially @lee, @robertm and @marie for the review and feedback before submitting.
+
+TREEHOUSE FSJS techDegree © [Diego ALvarez @doctorDAlvarez]()
+
+License (MIT)
+
+Have a nice coding day!
+
+=========================================
