@@ -38,8 +38,8 @@ Server will listen on <strong>localhost:5000</strong><br>
 =========================================
 
 ## Tests and browser compatibility
-All routes, authentication and CRUD operations were validated and tested using postman desktop. <br>
-Use this file in Postman to test. <code>RESTAPI.postman_collection.json<br>
+All routes, authentication and CRUD operations were validated and tested using Postman desktop. <br>
+Use this file in Postman to test. <code>RESTAPI.postman_collection.json</code><br>
 MAY 2021.
 
 ## Contribute
