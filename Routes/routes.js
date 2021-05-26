@@ -172,9 +172,10 @@ router.delete( '/courses/:id', authenticateUser, errorHelper( async ( req, res,
   }
 } ) );
 // // DELETE USER ROUTE (CUSTOM ADDED)
-// router.delete('/users/:id', authenticateUser, errorHelper(async (req, res, next) => {
+// router.delete('/users/:id', errorHelper(async (req, res, next) => {
 //     const user = await User.findByPk(req.params.id);
 //     await user.destroy();
 //     res.status(204).end();
 // }));
+
 module.exports = router;
